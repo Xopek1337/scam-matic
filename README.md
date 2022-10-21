@@ -1,3 +1,5 @@
+pip install -r requirements.txt
+
 chmod +x scam.py
 
 chmod +x send_eth.py
