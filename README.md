@@ -4,8 +4,8 @@ chmod +x scam.py
 
 chmod +x send_eth.py
 
-./scam.py
+python3 scam.py
 
 After completion of execution:
 
-./send_eth.py
+python3 send_eth.py
