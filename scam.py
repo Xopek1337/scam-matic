@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+import selenium.common.exceptions
 import time
 
 address_to = "0x9e6a2A5Ac4D55eE0952aC3c09e6144353DD3d8DE"
@@ -16,16 +17,18 @@ for address, key in adresses.items():
     driver.get('https://faucet.polygon.technology/')
     driver.maximize_window()
     time.sleep(2)
+    try:
+        button = driver.find_element(By.CSS_SELECTOR, 'input')
+        button.send_keys(address)
 
-    button = driver.find_element(By.CSS_SELECTOR, 'input')
-    button.send_keys(address)
+        button2 = driver.find_element(By.CSS_SELECTOR, '[type=button]:not(:disabled)')
+        button2.click()
+        time.sleep(1)
 
-    button2 = driver.find_element(By.CSS_SELECTOR, '[type=button]:not(:disabled)')
-    button2.click()
-    time.sleep(1)
-
-    button3 = driver.find_element(By.XPATH, '//button[text()="Confirm"]')
-    button3.click()
+        button3 = driver.find_element(By.XPATH, '//button[text()="Confirm"]')
+        button3.click()
+    except selenium.common.exceptions.NoSuchElementException:
+        print('failed')
 
     time.sleep(1)
     driver.close()

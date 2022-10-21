@@ -27,19 +27,21 @@ for address, key in adresses.items():
     gas_fee = w3.fromWei(gas_fee, 'Gwei')
 
     balance = balance - gas_fee
-
-    tx_create = w3.eth.account.signTransaction(
-        {
-            "nonce": w3.eth.getTransactionCount(account_from["address"]),
-            "gasPrice": w3.toWei('5', 'gwei'),
-            "gas": 21000,
-            "to": address_to,
-            "value": w3.toWei(balance, 'ether'),
-            "chainId": 80001
-        },
-        account_from["private_key"],
-    )
-    tx_hash = w3.eth.sendRawTransaction(tx_create.rawTransaction)
-    print(w3.toHex(tx_hash))
+    try:
+        tx_create = w3.eth.account.signTransaction(
+            {
+                "nonce": w3.eth.getTransactionCount(account_from["address"]),
+                "gasPrice": w3.toWei('5', 'gwei'),
+                "gas": 21000,
+                "to": address_to,
+                "value": w3.toWei(balance, 'ether'),
+                "chainId": 80001
+            },
+            account_from["private_key"],
+        )
+        tx_hash = w3.eth.sendRawTransaction(tx_create.rawTransaction)
+        print(w3.toHex(tx_hash))
+    except ValueError:
+        print('failed to send ether')
 
 
